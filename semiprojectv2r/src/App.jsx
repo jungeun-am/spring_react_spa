@@ -6,6 +6,8 @@ import Footer from "./pages/layout/Footer";
 import Main from "./pages/Main";
 import Join from "./pages/Join";
 import NotFound from "./pages/NotFound";
+import Myinfo from "./pages/Myinfo";
+import Login from "./pages/Login";
 import './styles/App.css'
 
 
@@ -18,10 +20,10 @@ function App() {
        <Routes>
        <Route path="" element={<Main />} />
        <Route path="/member/join" element={<Join />} />
-       {/*<Route path="/member/login" element={<Login />} />*/}
+       <Route path="/member/login" element={<Login />} />
        {/*<Route path="/board/list" element={<BoardList />} />*/}
        {/*<Route path="/gallery/list" element={<GalleryList />} />*/}
-       {/*<Route path="/member/myinfo" element={<Myinfo />} />*/}
+       <Route path="/member/myinfo" element={<Myinfo />} />
        <Route path="*" element={<NotFound />} />
        </Routes>
        <Footer />
