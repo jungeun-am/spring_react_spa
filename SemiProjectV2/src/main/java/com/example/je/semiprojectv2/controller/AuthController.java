@@ -1,7 +1,8 @@
 package com.example.je.semiprojectv2.controller;
 
-import com.example.zzyzzy.semiprojectv2.domain.MemberDTO;
-import com.example.zzyzzy.semiprojectv2.service.MemberService;
+import com.example.je.semiprojectv2.domain.Member;
+import com.example.je.semiprojectv2.domain.MemberDTO;
+import com.example.je.semiprojectv2.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -26,6 +27,26 @@ public class AuthController {
         try {
             // 정상 처리시 상태코드 200으로 응답
             memberService.newMember(member);
+            response = ResponseEntity.ok().build();
+        } catch (IllegalStateException e) {
+            response = ResponseEntity.badRequest().body(e.getMessage());
+            e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return response;
+    }
+
+    @PostMapping("/signin")
+    public ResponseEntity<?> loginok(@RequestBody MemberDTO member) {
+        ResponseEntity<?> response = ResponseEntity.internalServerError().build();
+
+        log.info("submit된 로그인 정보 : {}", member);
+
+        try {
+            Member loginUser = memberService.loginMember(member);
+            // 세션 처리
             response = ResponseEntity.ok().build();
         } catch (IllegalStateException e) {
             response = ResponseEntity.badRequest().body(e.getMessage());
