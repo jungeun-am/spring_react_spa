@@ -1,17 +1,38 @@
 package com.example.je.semiprojectv2.controller;
-import org.springframework.http.RequestEntity;
+import com.example.je.semiprojectv2.domain.Board;
+import com.example.je.semiprojectv2.service.BoardService;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+@CrossOrigin(origins="http://localhost:5173")
+@Slf4j
 @RestController
 @RequestMapping("/api/board")
+@RequiredArgsConstructor
 public class BoardController {
 
-    @PostMapping("/write")
-    public ResponseEntity<?> writeok() {
+    private final BoardService boardService;
 
-        return ResponseEntity.ok().build();
+    @PostMapping("/write")
+    public ResponseEntity<?> writeok(@RequestBody Board board) {
+        ResponseEntity<?> response = ResponseEntity.internalServerError().build();
+
+        log.info("submit된 게시판 데이터 : {}", board);
+
+        try {
+            //if (!googleRecaptchaService.verifyRecaptcha(gRecaptchaResponse)) {
+            //    throw new IllegalStateException("자동가입방지 코드 오류!!");
+            //}
+            boardService.newBoard(board);
+            response = ResponseEntity.ok().build();
+        } catch (IllegalStateException ex) {
+            response = ResponseEntity.badRequest().body(ex.getMessage());
+        }
+
+        return response;
     }
+
 }
