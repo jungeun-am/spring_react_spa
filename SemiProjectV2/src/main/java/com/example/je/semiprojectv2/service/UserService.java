@@ -7,5 +7,5 @@ public interface UserService {
 
     User newUser(User user);
 
-    User loginMember(User user);
+    User loginUser(User user);
 }

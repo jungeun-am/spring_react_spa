@@ -1,5 +1,6 @@
 package com.example.je.semiprojectv2.service;
 
+import com.example.je.semiprojectv2.domain.Member;
 import com.example.je.semiprojectv2.domain.User;
 import com.example.je.semiprojectv2.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -30,8 +31,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User loginMember(User user) {
-        return null;
-    }
+    public User loginUser(User user) {
+        User findUser = userRepository.findByUserid(user.getUserid());
 
+        if (findUser == null || !findUser.getPasswd().equals(user.getPasswd())) {
+            throw new IllegalStateException("아이디나 비밀번호가 일치하지 않습니다!!");
+        }
+
+        return findUser;
+    }
 }
