@@ -38,6 +38,7 @@ public class BoardController {
 
         return response;
     }
+
     // list 엔드포인트 변경
     // http://localhost:8080/api/board/list?cpg=4
     // http://localhost:8080/api/board/list/4
@@ -47,10 +48,11 @@ public class BoardController {
 
         return new ResponseEntity<>(boardListDTO, HttpStatus.OK);
     }
-    @GetMapping("/find/{cpg}/{findtype}/{findkey}")
+
+    @GetMapping("/find/{findtype}/{findkey}/{cpg}")
     public ResponseEntity<?> find(@PathVariable int cpg,
                                   @PathVariable String findtype, @PathVariable String findkey) {
-        BoardListDTO boardListDTO = boardService.findBoard(cpg,findtype,findkey);
+        BoardListDTO boardListDTO = boardService.findBoard(cpg, findtype, findkey);
 
         return new ResponseEntity<>(boardListDTO, HttpStatus.OK);
     }
