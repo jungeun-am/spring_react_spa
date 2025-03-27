@@ -9,7 +9,7 @@ const BoardList = () => {
     // react에서 부수작업을 수행하기 위한 side effect을 수행하기 위한 hook
     // 부수작업: 데이터 가져오기, DOM조작, 로그
     useEffect(() => {
-        fetch('http://localhost:8080/api/board/list')
+        fetch(`http://localhost:8080/api/board/list`)
             .then(res => res.json())
             .then(data => {
                 console.log(data);
