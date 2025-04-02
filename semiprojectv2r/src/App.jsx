@@ -9,7 +9,8 @@ import Login from "./pages/Login";
 import Myinfo from "./pages/Myinfo";
 import BoardList from "./pages/BoardList";
 import BoardWrite from "./pages/BoardWrite";
-import BoardView from "./pages/BoardView.jsx";
+
+
 import NotFound from "./pages/NotFound";
 import './styles/App.css'
 
