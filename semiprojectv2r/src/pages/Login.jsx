@@ -1,6 +1,4 @@
 import {useRef, useState} from "react";
-import { GoogleLogin, GoogleOAuthProvider } from '@react-oauth/google';
-import jwt_decode from 'jwt-decode';
 import "../styles/member.css"
 
 // 폼 재설정 함수

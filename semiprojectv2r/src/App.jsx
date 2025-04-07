@@ -11,6 +11,7 @@ import Myinfo from "./pages/Myinfo";
 import BoardList from "./pages/BoardList";
 import BoardWrite from "./pages/BoardWrite";
 import GalleryWrite from "./pages/GalleryWrite";
+import PdsWrite from "./pages/PdsWrite";
 import BoardView from "./pages/BoardView";
 
 import NotFound from "./pages/NotFound";
@@ -31,6 +32,7 @@ function App() {
         <Route path="/board/find/:ftype/:fkey/:cpg" element={<BoardList />} />
         <Route path="/board/write" element={<BoardWrite />} />
         <Route path="/gallery/write" element={<GalleryWrite />} />
+        <Route path="/pds/write" element={<PdsWrite />} />
         <Route path="/board/view/:bno" element={<BoardView />} />
         {/*<Route path="/gallery/list" element={<GalleryList />} />*/}
         <Route path="/member/myinfo" element={<Myinfo />} />
