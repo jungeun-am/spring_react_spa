@@ -79,9 +79,15 @@ public class PdsServiceImpl implements PdsService {
         return result;
     }
 
+    @Transactional
     @Override
     public PdsReplyDTO readOnePdsReply(int pno) {
-        return null;
+        //pdsMapper.updateView(pno);  // 조회수 증가
+        Pds pds = pdsMapper.findByPno(pno);
+        List<PdsAttach> pas = pdsAttachMapper.findByPno(pno);
+        List<PdsReply> prs = pdsReplyMapper.findByPno(pno);
+
+        return new PdsReplyDTO(pds, pas, prs);
     }
 
 }
