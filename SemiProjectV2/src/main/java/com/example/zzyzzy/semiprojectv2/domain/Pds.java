@@ -8,16 +8,18 @@ import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
-@Table(name="gallerys3")
+@Table(name="pds3")
 @Data @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class Gallery {
+public class Pds {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int ggno;
+    private int pno;
 
     @Column(nullable = false)
     private String title;
@@ -25,8 +27,8 @@ public class Gallery {
     @Column(nullable = false)
     private String userid;
 
-    @Column(nullable = false)
-    private String simgname;
+    @Column(nullable = false, columnDefinition = "TEXT")
+    private String contents;
 
     @Column(nullable = false)
     private int thumbs = 0;
@@ -34,9 +36,15 @@ public class Gallery {
     @Column(nullable = false)
     private int views = 0;
 
-    @Column(nullable = false)
-    private String contents;
-
     @CreationTimestamp
     private LocalDateTime regdate;
+
+    @OneToMany(fetch = FetchType.LAZY)
+    @JoinColumn(name = "pno")
+    private List<PdsAttach> pdsAttach = new ArrayList<>();
+
+    @OneToMany(fetch = FetchType.LAZY)
+    @JoinColumn(name = "pno")
+    private List<PdsReply> pdsReply = new ArrayList<>();
+
 }
