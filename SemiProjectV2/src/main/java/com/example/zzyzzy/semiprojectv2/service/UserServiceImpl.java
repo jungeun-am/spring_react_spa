@@ -5,19 +5,27 @@ import com.example.zzyzzy.semiprojectv2.domain.User;
 import com.example.zzyzzy.semiprojectv2.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.RandomStringUtils;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
+import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
+    // 이메일 인증을 위해 추가
     private final PasswordEncoder passwordEncoder;
-    private final JavaMailSender mailSender;
+    private final JavaMailSender MailSender;
+    private final JavaMailSenderImpl mailSender;
 
     @Override
     public User newUser(User user) {
@@ -33,20 +41,19 @@ public class UserServiceImpl implements UserService {
         }
 
         try {
-            user.setVerifycode(makeVerifyCode()); //계정에 인증코드 생성
-            sendVerifyCode(user); // 메일 확인용 인증코드 발송
-
+            user.setVerifycode(makeVerifyCode()); // 계정에 인증코드 생성
+            sendVerifyCode(user);   // 메일로 확인용 인증코드 발송
         }catch (Exception e) {
             e.printStackTrace();
-
-            throw new IllegalStateException("인증코드 발송에 문제 발생");
+            throw new IllegalStateException("인증코드 발송 문제 발생!!");
         }
-        user.setPasswd(passwordEncoder.encode(user.getPasswd())); // 비밀번호를 암호화시켜 저장
+
+        user.setPasswd(passwordEncoder.encode(user.getPasswd()));  // 비밀번호를 암호화시켜 저장
         return userRepository.save(user);
     }
 
     // 알파벳과 숫자로 구성된 6자리 코드 생성
-    private String makeVerifyCode(){
+    private String makeVerifyCode() {
         return RandomStringUtils.randomAlphanumeric(6);
     }
 
@@ -54,11 +61,10 @@ public class UserServiceImpl implements UserService {
     private void sendVerifyCode(User user) {
         SimpleMailMessage message = new SimpleMailMessage();
         message.setTo(user.getEmail());
-        message.setSubject("회원가입 이메일 인증 코드 발송");
+        message.setSubject("회원가입 이메일 인증코드 발송");
         message.setText("인증코드 : " + user.getVerifycode());
         mailSender.send(message);
     }
-
 
     @Override
     public User loginUser(User user) {
@@ -71,5 +77,19 @@ public class UserServiceImpl implements UserService {
         }
 
         return findUser;
+    }
+
+    @Override
+    public boolean verifyEmail(String userid, String email, String code) {
+        Optional<User> user = userRepository
+                .findByUseridAndEmailAndVerifycode(userid, email, code);
+
+        if (user.isPresent()) {
+            user.get().setVerifycode(null); // 인증코드 초기화
+            user.get().setEnabled("true");  // 로그인 가능하도록 설정
+            userRepository.save(user.get()); // 변경된 내용을 레포지토리로 넘김(db 바뀌게)
+            return true;
+        }
+        return false;
     }
 }

@@ -16,8 +16,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 
-// 교차출처 리소스 공유 CORS
-@CrossOrigin(origins={"http://localhost:5173", "http://127.0.0.1:3000"})
+// 교차 출처 리소스 공유 CORS
+@CrossOrigin(origins = {"http://localhost:5173", "http://172.30.1.25:3000"})
 @Slf4j
 @RestController
 @RequiredArgsConstructor
@@ -41,7 +41,7 @@ public class AuthController {
                 throw new IllegalStateException("자동가입방지 코드 오류!!");
             }
 
-            // 정상 처리시 상태코드 200으로 응답
+            // 정상 처리시 상태코드 200으로 응답;;
             userService.newUser(user);
             response = ResponseEntity.ok().build();
         } catch (IllegalStateException e) {
@@ -71,9 +71,8 @@ public class AuthController {
 
             // 생성한 토큰을 JSON 형식으로 만듦
             Map<String, String> tokens = Map.of(
-                "accessToken", jwt
+                    "accessToken", jwt
             );
-
             response = ResponseEntity.ok().body(tokens);
         } catch (UsernameNotFoundException e) {
             response = ResponseEntity.status(HttpStatus.UNAUTHORIZED)
@@ -81,7 +80,6 @@ public class AuthController {
         } catch (BadCredentialsException e) {
             response = ResponseEntity.status(HttpStatus.UNAUTHORIZED)
                     .body("아이디나 비밀번호가 일치하지 않습니다!!");
-            log.info(e.getMessage());
         } catch (Exception e) {
             response = ResponseEntity.status(HttpStatus.UNAUTHORIZED)
                     .body("이메일 인증을 하지 않았습니다!!");
