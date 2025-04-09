@@ -14,9 +14,9 @@ import GalleryWrite from "./pages/GalleryWrite";
 import PdsWrite from "./pages/PdsWrite";
 import BoardView from "./pages/BoardView";
 import PdsView from "./pages/PdsView";
-
 import NotFound from "./pages/NotFound";
 import './styles/App.css'
+import KakaoOAuthHandler from "./components/KakaoOAuthHandler.jsx";
 
 function App() {
 
@@ -39,6 +39,7 @@ function App() {
         {/*<Route path="/gallery/list" element={<GalleryList />} />*/}
         <Route path="/member/myinfo" element={<Myinfo />} />
         <Route path="*" element={<NotFound />} />
+        <Route path="/api/oauth/kakao/callback" element={<KakaoOAuthHandler />} />
      </Routes>
      <Footer />
    </Router>
