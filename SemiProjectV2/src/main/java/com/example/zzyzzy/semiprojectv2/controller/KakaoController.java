@@ -44,7 +44,7 @@ public class KakaoController {
         log.info("인가코드:" + code);
 
         // 2단계: 엑세스토큰 요청
-        String authorizeUrl = "https://kauth.kakao.com/oauth/token";\
+        String authorizeUrl = "https://kauth.kakao.com/oauth/token";
         String params = "?client_id=%s&redirect_uri=%s&code=%s&grant_type=authorization_code";
         String kakaoUrl = String.format(authorizeUrl+params, clientId, redirectUri, code);
 
