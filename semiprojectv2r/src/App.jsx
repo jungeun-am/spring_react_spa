@@ -17,6 +17,7 @@ import PdsView from "./pages/PdsView";
 import NotFound from "./pages/NotFound";
 import './styles/App.css'
 import KakaoOAuthHandler from "./components/KakaoOAuthHandler.jsx";
+import KakaoMyinfo from "./pages/KakaoMyinfo.jsx";
 
 function App() {
 
@@ -38,6 +39,7 @@ function App() {
         <Route path="/pds/view/:pno" element={<PdsView />} />
         {/*<Route path="/gallery/list" element={<GalleryList />} />*/}
         <Route path="/member/myinfo" element={<Myinfo />} />
+        <Route path="/member/KakaoMyinfo" element={<KakaoMyinfo />} />
         <Route path="*" element={<NotFound />} />
         <Route path="/api/oauth/kakao/callback" element={<KakaoOAuthHandler />} />
      </Routes>
